@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Monitor Comex Argentina</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚢%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#f7f9fb;--sf:#ffffff;--tx:#14232f;--mu:#566676;--ln:#d9e1e8;--hd:#0f2a3d;--hdtx:#eef4f8;--ac:#1d6fa5;--alta:#c0392b;--media:#c98a00;--baja:#5f8a6a;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1620;--sf:#15212d;--tx:#e6edf3;--mu:#9bacbb;--ln:#26364a;--hd:#08111a;--hdtx:#e6edf3;--ac:#6db3e8;--alta:#ff7b6b;--media:#f0b43c;--baja:#86c398;color-scheme:dark}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--ac)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:var(--hd);color:var(--hdtx);padding-top:env(safe-area-inset-top,0px)}
+.nav{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px}
+.brand{font:700 1.15rem Georgia,"Iowan Old Style",serif;margin-right:auto;color:var(--hdtx);text-decoration:none}
+.nav a.m{color:var(--hdtx);text-decoration:none;font-size:.95rem;padding:4px 0;border-bottom:2px solid transparent}
+.nav a.m:hover{border-color:var(--hdtx)}
+main{max-width:980px;margin:0 auto;padding:0 16px 48px}
+section{padding-top:34px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style",serif;line-height:1.2;margin:0}
+h1{font-size:clamp(1.7rem,4.6vw,2.5rem);margin-bottom:6px}
+h2{font-size:1.5rem;margin-bottom:12px}
+.lead{color:var(--mu);margin:0 0 18px;max-width:62ch}
+.top{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.hl{background:var(--sf);border:1px solid var(--ln);border-left:6px solid var(--media);border-radius:6px;padding:14px 16px}
+.hl.Alta{border-left-color:var(--alta)}.hl.Baja{border-left-color:var(--baja)}
+.hl h3{font-size:1.05rem;margin:4px 0 6px}
+.hl p{margin:0 0 8px;font-size:.95rem}
+.rel{font-weight:700;font-size:.82rem}
+.Alta .rel,.rel.Alta{color:var(--alta)}.Media .rel,.rel.Media{color:var(--media)}.Baja .rel,.rel.Baja{color:var(--baja)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.tools input{flex:1 1 220px;padding:9px 12px;border:1px solid var(--ln);border-radius:6px;background:var(--sf);color:var(--tx);font:inherit}
+.chip{border:1px solid var(--ln);background:var(--sf);color:var(--tx);padding:7px 13px;border-radius:6px;cursor:pointer;font:inherit;font-size:.9rem}
+.chip[aria-pressed="true"]{background:var(--ac);border-color:var(--ac);color:#fff}
+.day{margin:22px 0 0}
+.day h3{font-size:1.2rem;padding-bottom:4px;border-bottom:2px solid var(--ln)}
+.day .sum{color:var(--mu);margin:8px 0 6px;font-size:.95rem}
+.it{border-bottom:1px solid var(--ln);padding:12px 0 12px 12px;border-left:4px solid var(--media);margin-top:8px;background:var(--sf)}
+.it.Alta{border-left-color:var(--alta)}.it.Baja{border-left-color:var(--baja)}
+.it h4{margin:0 0 4px;font-size:1rem}
+.it p{margin:0 0 6px;font-size:.95rem}
+.meta{font-size:.84rem;color:var(--mu)}
+.meta a{margin-left:8px}
+.pend{font-size:.9rem;color:var(--mu);margin-top:8px}
+table{width:100%;border-collapse:collapse;background:var(--sf);border:1px solid var(--ln)}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--ln);vertical-align:top}
+th{width:34%;font-weight:600}
+.src{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));padding:0;list-style:none;margin:0}
+.src li{background:var(--sf);border:1px solid var(--ln);border-radius:6px;padding:10px 14px}
+.src b{display:block}
+.src span{font-size:.88rem;color:var(--mu)}
+.empty{color:var(--mu);padding:18px 0}
+footer{max-width:980px;margin:0 auto;padding:0 16px 36px;color:var(--mu);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+<a class="brand" href="#hoy">Monitor Comex Argentina</a>
+<a class="m" href="#hoy">Lo de hoy</a><a class="m" href="#noticias">Noticias</a><a class="m" href="#calendario">Calendario</a><a class="m" href="#fuentes">Fuentes</a>
+</div></header>
+<main>
+<section id="hoy">
+<h1 id="h-fecha">Lo más importante</h1>
+<p class="lead" id="h-sum"></p>
+<div class="top" id="top"></div>
+</section>
+
+<section id="noticias">
+<h2>Noticias día por día</h2>
+<div class="tools"><input id="q" type="search" placeholder="Buscar: SENASA, RIGI, dólar…" aria-label="Buscar en las noticias"></div>
+<div class="tools" id="chips">
+<button class="chip" data-g="rel" data-v="Alta" aria-pressed="false">Relevancia alta</button>
+<button class="chip" data-g="rel" data-v="Media" aria-pressed="false">Relevancia media</button>
+<button class="chip" data-g="rel" data-v="Baja" aria-pressed="false">Relevancia baja</button>
+<button class="chip" data-g="type" data-v="Normativa" aria-pressed="false">Normativa</button>
+<button class="chip" data-g="type" data-v="Mercados" aria-pressed="false">Mercados</button>
+<button class="chip" data-g="type" data-v="Contexto" aria-pressed="false">Contexto</button>
+</div>
+<div id="days"></div>
+</section>
+
+<section id="calendario">
+<h2>Calendario próximo</h2>
+<table><tbody id="cal"></tbody></table>
+</section>
+
+<section id="fuentes">
+<h2>Fuentes que se revisan</h2>
+<ul class="src" id="srcs"></ul>
+</section>
+</main>
+<footer>Actualizado el <span id="upd"></span>. La relevancia indica cuánto afecta a quienes importan, exportan o gestionan trámites de comercio exterior: alta cambia requisitos, costos o plazos; media da contexto o puede derivar en cambios; baja es informativa.</footer>
+
+<script>
+var DATA = {
+updated: "2026-11-19",
+days: [
+{date:"2026-11-19", summary:"El Boletín Oficial trae una norma sobre zonas francas, una prórroga en el Puerto de Ushuaia y una letra del Tesoro ligada al dólar. El dólar volvió a subir y el riesgo país cerró cerca de 870 puntos.",
+ items:[
+ {rel:"Media",type:"Normativa",title:"Nuevo reglamento de la Zona Franca de San Juan (Economía, Resolución 2000/2026)",text:"Reemplaza al de 1996 y se adapta al sector minero-industrial, en particular a proyectos de cobre y oro. Rige desde el día siguiente a su publicación. Falta leer el reglamento completo.",src:[["Boletín Oficial","https://www.boletinoficial.gob.ar/detalleAviso/primera/350554/20261119"]]},
+ {rel:"Media",type:"Normativa",title:"Prórroga de la intervención del Puerto de Ushuaia (ANPYN, Resolución 69/2026)",text:"Se prorroga por 12 meses la intervención administrativa del puerto y se aprueba un plan de obras que incluye reparar el muelle comercial.",src:[["Boletín Oficial","https://www.boletinoficial.gob.ar/detalleAviso/primera/350548/20261119"]]},
+ {rel:"Baja",type:"Normativa",title:"Letra del Tesoro D29E7 y DNU 1391/2026",text:"Se emite una letra ligada al dólar por hasta USD 4.800 millones con vencimiento el 29/1/2027, y el DNU modifica el Presupuesto 2026. Hubo avisos de las aduanas de Concordia, Corrientes y Tinogasta sobre mercadería retenida.",src:[["Resolución Conjunta 66/2026","https://www.boletinoficial.gob.ar/detalleAviso/primera/350567/20261119"]]},
+ {rel:"Media",type:"Mercados",title:"Dólar mayorista en $1.565, nuevo máximo nominal",text:"El blue cerró en $1.640 (quinta suba consecutiva). El CCL tiene una brecha de 11,2% y el MEP de 4,7%. El riesgo país quedó en 870 puntos.",src:[["Ámbito","https://www.ambito.com/finanzas/dolar-hoy-cuanto-cerro-este-jueves-19-noviembre-n6347273"],["MDZ","https://www.mdzol.com/economia/2026/11/19/el-dolar-oficial-subio-y-toco-otro-record-el-blue-aumento-15-1996616.html"]]}
+ ],pending:"leer el reglamento de la Zona Franca de San Juan y revisar qué se trató en el Senado."},
+{date:"2026-11-18", summary:"La norma de comercio exterior del día es la prohibición de la ractopamina en cerdos. El dólar mayorista y el blue marcaron nuevos máximos.",
+ items:[
+ {rel:"Alta",type:"Normativa",title:"SENASA prohíbe la ractopamina en cerdos (Resolución 956/2026)",text:"Prohíbe los promotores de crecimiento con beta agonistas o tirostáticos, elimina la excepción que permitía la ractopamina en cerdos y deroga la Resolución 148/2006. La pidieron cinco entidades de la cadena porcina para preservar el acceso a mercados.",src:[["Noticias Agropecuarias","https://www.noticiasagropecuarias.com/2026/11/18/el-senasa-prohibio-el-uso-de-ractopamina-en-la-produccion-porcina-argentina/"]]},
+ {rel:"Media",type:"Mercados",title:"Dólar mayorista en $1.559,50 y blue en $1.630",text:"Ambos en máximos nominales; el CCL tiene una brecha de 10,2%. El BCRA compró solo USD 11 millones y las reservas cayeron USD 190 millones por la baja del oro. Riesgo país en 854 puntos.",src:[["Ámbito","https://www.ambito.com/finanzas/dolar-hoy-cuanto-cerro-este-miercoles-18-noviembre-n6346801"]]}
+ ],pending:"no se pudo revisar el índice completo del Boletín del 18/11."},
+{date:"2026-11-17", summary:"En el Boletín Oficial, la norma de comercio exterior es la nueva regulación de fumigaciones oficiales del SENASA. El mayorista volvió a marcar un máximo nominal.",
+ items:[
+ {rel:"Alta",type:"Normativa",title:"Nuevo régimen de fumigaciones oficiales (SENASA, Resolución 955/2026)",text:"Rige desde el 18/11. El bromuro de metilo solo se permite si lo pide el país importador y no en bodegas de buques; para granos en bodega se autorizan solo fosfuro de aluminio o de magnesio. Se mantiene la prohibición de fumigar granos durante la carga y el tránsito en camión o vagón. Abroga la Resolución 79/2023.",src:[["Comercio y Justicia","https://comercioyjusticia.info/leyes-y-comentarios/comercio-exterior-el-senasa-moderniza-el-sistema-de-supervision-de-fumigaciones-fitosanitarias/"]]},
+ {rel:"Media",type:"Mercados",title:"Dólar mayorista en $1.552, blue en $1.605",text:"Máximos nominales. El BCRA compró USD 74 millones, las reservas subieron más de USD 275 millones y el riesgo país superó los 850 puntos.",src:[["BAE Negocios","https://www.baenegocios.com/finanzas/el-mayorista-marco-un-nuevo-record-y-el-riesgo-pais-volvio-a-superar-los-850-puntos/"]]}
+ ],pending:"leer las Resoluciones 1949/2026 y 1957/2026 de Economía del 13/11."}
+],
+calendar:[
+["20 de noviembre","Se retoma la revisión del Boletín Oficial del martes 10 de noviembre."],
+["24 de noviembre","Remate de maíz decomisado de ARCA Mercedes."],
+["25 de noviembre","Dictamen previsto del Presupuesto 2027 en Diputados."],
+["30 de noviembre","Vence la prórroga de la solvencia económica con garantías de actuación de ARCA (RG 5904/2026)."],
+["4 de diciembre","Cumbre del Mercosur en Montevideo."]
+],
+sources:[
+["Boletín Oficial","https://www.boletinoficial.gob.ar/","Decretos, resoluciones y leyes."],
+["ARCA (ex AFIP)","https://www.arca.gob.ar/","Aduana, aranceles y trámites."],
+["Cancillería","https://www.cancilleria.gob.ar/","Acuerdos y negociaciones comerciales."],
+["VUCE","https://www.vuce.gob.ar/","Novedades de comercio exterior."],
+["INDEC","https://www.indec.gob.ar/","Inflación e intercambio comercial."],
+["BCRA","https://www.bcra.gob.ar/","Normas cambiarias y reservas."],
+["Ámbito","https://www.ambito.com/","Economía, finanzas y mercados."],
+["Aduana News","https://aduananews.com/","Normativa aduanera."],
+["Comercio y Justicia","https://comercioyjusticia.info/","Texto de normas de comercio exterior."],
+["BOA","https://boa.com.ar/","Resumen diario del Boletín Oficial."]
+]};
+
+(function(){
+var MES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+var DIA=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+var filt={rel:null,type:null},query="";
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function fmt(d){var p=d.split("-"),dt=new Date(+p[0],+p[1]-1,+p[2]);return DIA[dt.getDay()]+" "+(+p[2])+" de "+MES[+p[1]-1]+" de "+p[0]}
+function links(src){var m=el("div","meta");src.forEach(function(s){var a=el("a",null,s[0]);a.href=s[1];a.target="_blank";a.rel="noopener noreferrer";m.appendChild(a)});return m}
+function ok(it){
+if(filt.rel&&it.rel!==filt.rel)return false;
+if(filt.type&&it.type!==filt.type)return false;
+if(query&&((it.title+" "+it.text).toLowerCase().indexOf(query)<0))return false;
+return true}
+function home(){
+var d=DATA.days[0];
+document.getElementById("h-fecha").textContent="Lo más importante del "+fmt(d.date);
+document.getElementById("h-sum").textContent=d.summary;
+var box=document.getElementById("top");
+var order={Alta:0,Media:1,Baja:2};
+var sel=d.items.slice().sort(function(a,b){return order[a.rel]-order[b.rel]}).slice(0,4);
+sel.forEach(function(it){
+var c=el("article","hl "+it.rel);
+c.appendChild(el("div","rel","Relevancia "+it.rel.toLowerCase()));
+c.appendChild(el("h3",null,it.title));
+c.appendChild(el("p",null,it.text));
+c.appendChild(links(it.src));
+box.appendChild(c)})}
+function days(){
+var box=document.getElementById("days");box.textContent="";
+var n=0;
+DATA.days.forEach(function(d){
+var its=d.items.filter(ok);
+if(!its.length)return;
+n++;
+var w=el("div","day");
+w.appendChild(el("h3",null,fmt(d.date)));
+w.appendChild(el("p","sum",d.summary));
+its.forEach(function(it){
+var a=el("article","it "+it.rel);
+a.appendChild(el("h4",null,it.title));
+a.appendChild(el("p",null,it.text));
+var m=el("div","meta");m.appendChild(document.createTextNode("Relevancia "+it.rel.toLowerCase()+" · "+it.type));
+it.src.forEach(function(s){var l=el("a",null,s[0]);l.href=s[1];l.target="_blank";l.rel="noopener noreferrer";m.appendChild(l)});
+a.appendChild(m);w.appendChild(a)});
+if(d.pending&&!filt.rel&&!filt.type&&!query)w.appendChild(el("div","pend","Pendiente: "+d.pending));
+box.appendChild(w)});
+if(!n)box.appendChild(el("p","empty","No hay noticias con esos filtros."))}
+var cal=document.getElementById("cal");
+DATA.calendar.forEach(function(c){var r=el("tr");r.appendChild(el("th",null,c[0]));r.appendChild(el("td",null,c[1]));cal.appendChild(r)});
+var sr=document.getElementById("srcs");
+DATA.sources.forEach(function(s){var li=el("li");var a=el("a",null,s[0]);a.href=s[1];a.target="_blank";a.rel="noopener noreferrer";var b=el("b");b.appendChild(a);li.appendChild(b);li.appendChild(el("span",null,s[2]));sr.appendChild(li)});
+var u=DATA.updated.split("-");document.getElementById("upd").textContent=(+u[2])+" de "+MES[+u[1]-1]+" de "+u[0];
+document.getElementById("q").addEventListener("input",function(e){query=e.target.value.trim().toLowerCase();days()});
+document.getElementById("chips").addEventListener("click",function(e){
+var b=e.target.closest(".chip");if(!b)return;
+var g=b.dataset.g,v=b.dataset.v;filt[g]=filt[g]===v?null:v;
+document.querySelectorAll('.chip[data-g="'+g+'"]').forEach(function(x){x.setAttribute("aria-pressed",String(filt[g]===x.dataset.v))});
+days()});
+home();days();
+})();
+</script>
+</body>
+</html>
